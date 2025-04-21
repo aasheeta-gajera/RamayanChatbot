@@ -30,13 +30,15 @@
 }
 
 .App-header {
-  padding: 20px;
-  color: white;
+  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding: 40px 20px;
+  font-size: calc(10px + 1.5vmin);
+  color: white;
 }
 
 h1 {
@@ -59,92 +61,74 @@ h1 {
   }
 }
 
+.chatbot, .faq-generator {
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 90%;
-  max-width: 800px;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  width: 100%;
 }
 
 input {
-  padding: 15px;
-  font-size: 18px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
   border: none;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  transition: all 0.3s ease;
-}
-
-input:focus {
-  outline: none;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-  transform: scale(1.02);
+  border-radius: 5px;
+  font-size: 16px;
 }
 
 button {
-  padding: 15px 30px;
-  font-size: 18px;
-  background: linear-gradient(45deg, #FFD700, #FFA500);
-  color: #1a1a1a;
+  padding: 10px 15px;
+  background-color: #61dafb;
+  color: #282c34;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  border-radius: 5px;
   font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+  background-color: #4fa8cc;
 }
 
 button:disabled {
-  background: #cccccc;
-  transform: none;
-  box-shadow: none;
+  background-color: #cccccc;
   cursor: not-allowed;
 }
 
 .answer {
-  margin-top: 30px;
-  padding: 25px;
-  background: rgba(255, 255, 255, 0.95);
-  color: #1a1a1a;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 800px;
-  text-align: left;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  margin-top: 20px;
+  padding: 15px;
+  background-color: rgba(97, 218, 251, 0.2);
+  border-radius: 5px;
+  width: 100%;
 }
 
 .answer h2 {
-  color: #b21f1f;
-  margin-bottom: 15px;
-  font-family: 'Times New Roman', serif;
+  font-size: 1.2rem;
+  margin-top: 0;
+  color: #61dafb;
 }
 
 .answer p {
-  font-size: 18px;
-  line-height: 1.6;
-  margin-bottom: 15px;
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
+.success-message {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: rgba(39, 174, 96, 0.2);
+  border-radius: 5px;
+  color: #2ecc71;
 }
 
 .shloka {

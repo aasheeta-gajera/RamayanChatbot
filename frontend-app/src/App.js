@@ -5,7 +5,7 @@ function App() {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [loading, setLoading] = useState(false);
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -29,24 +29,28 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Ramayan Chatbot</h1>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Ask about Ramayan..."
-            required
-          />
-          <button type="submit" disabled={loading}>
-            {loading ? 'Searching...' : 'Ask'}
-          </button>
-        </form>
-        {answer && (
-          <div className="answer">
-            <h2>Answer:</h2>
-            <p>{answer}</p>
-          </div>
-        )}
+        
+        <div className="chatbot">
+          <h2>Ask a Question</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              placeholder="Ask about Ramayan..."
+              required
+            />
+            <button type="submit" disabled={loading}>
+              {loading ? 'Searching...' : 'Ask'}
+            </button>
+          </form>
+          {answer && (
+            <div className="answer">
+              <h2>Answer:</h2>
+              <p>{answer}</p>
+            </div>
+          )}
+        </div>
       </header>
     </div>
   );

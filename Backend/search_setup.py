@@ -1,6 +1,7 @@
 import json
 import requests
 import re
+import random
 
 class RamayanSearch:
     def __init__(self):
@@ -54,6 +55,40 @@ class RamayanSearch:
         # Sort by score and get top k results
         results.sort(key=lambda x: x['score'], reverse=True)
         return results[:k]
+    
+    def get_random_shloka(self, k=1):
+        """Get random shlokas from the dataset with extracted keywords for question generation"""
+        if not self.data:
+            return []
+            
+        # Get k random shlokas
+        selected_shlokas = []
+        for _ in range(k):
+            if len(self.data) > 0:
+                shloka = random.choice(self.data)
+                
+                # Extract potential keywords from the translation or meaning
+                keywords = []
+                text = shloka.get('translation', '') or shloka.get('meaning', '')
+                if text:
+                    # Get important words (nouns, proper nouns) - simplified approach
+                    words = re.findall(r'\b[A-Z][a-z]+\b', text)  # Find proper nouns (capitalized words)
+                    if words:
+                        keywords = words[:3]  # Take up to 3 keywords
+                    else:
+                        # If no proper nouns, take some longer words as they might be important
+                        all_words = re.findall(r'\b[a-z]{5,}\b', text.lower())
+                        keywords = all_words[:3] if all_words else ['wisdom', 'dharma', 'devotion']
+                
+                selected_shlokas.append({
+                    'shloka': shloka.get('shloka', ''),
+                    'meaning': shloka.get('meaning', ''),
+                    'translation': shloka.get('translation', ''),
+                    'explanation': shloka.get('explanation', ''),
+                    'keywords': keywords
+                })
+                
+        return selected_shlokas
 
 # Create a global instance
 ramayan_search = RamayanSearch() 
