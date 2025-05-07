@@ -41,3 +41,6 @@ def generate_qa_from_shlokas(input_file, output_file):
 
 # Example usage
 generate_qa_from_shlokas('RamayanApi.json', 'ramayan_qa.json')
+
+
+

@@ -1,35 +1,117 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import "./Chatbot.css";
 
 function Chatbot() {
     const [question, setQuestion] = useState("");
-    const [answer, setAnswer] = useState(""); // ✅ Defined but not used yet
+    const [messages, setMessages] = useState(() => {
+        // Load messages from localStorage on initial render
+        const savedMessages = localStorage.getItem('ramayanChatHistory');
+        return savedMessages ? JSON.parse(savedMessages) : [];
+    });
+    const chatContainerRef = useRef(null);
 
-    async function askChatbot() {
-        const response = await fetch("http://127.0.0.1:5000/chatbot", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ question }),
-        });
+    // Save messages to localStorage whenever they change
+    useEffect(() => {
+        localStorage.setItem('ramayanChatHistory', JSON.stringify(messages));
+    }, [messages]);
 
-        if (!response.ok) {
-            setAnswer("Error: Unable to fetch answer.");
-            return;
+    // Scroll to bottom when new messages are added
+    useEffect(() => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
+    }, [messages]);
 
-        const data = await response.json();
-        setAnswer(data.answer || "No response from chatbot.");
+    async function askChatbot(e) {
+        e.preventDefault();
+        if (!question.trim()) return;
+
+        // Add user message to chat
+        const userMessage = { 
+            type: 'user', 
+            content: question,
+            timestamp: new Date().toISOString()
+        };
+        setMessages(prev => [...prev, userMessage]);
+        setQuestion("");
+
+        try {
+            const response = await fetch("http://127.0.0.1:5000/chatbot", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ question }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Unable to fetch answer");
+            }
+
+            const data = await response.json();
+            // Add bot response to chat
+            const botMessage = { 
+                type: 'bot', 
+                content: data.answer || "No response from chatbot.",
+                timestamp: new Date().toISOString()
+            };
+            setMessages(prev => [...prev, botMessage]);
+        } catch (error) {
+            const errorMessage = { 
+                type: 'bot', 
+                content: "Error: Unable to fetch answer.",
+                timestamp: new Date().toISOString()
+            };
+            setMessages(prev => [...prev, errorMessage]);
+        }
     }
 
+    const clearHistory = () => {
+        if (window.confirm('Are you sure you want to clear the chat history?')) {
+            setMessages([]);
+            localStorage.removeItem('ramayanChatHistory');
+        }
+    };
+
     return (
-        <div>
-            <input 
-                type="text"
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                placeholder="Ask something..."
-            />
-            <button onClick={askChatbot}>Ask</button>
-            <p>Answer: {answer}</p> {/* ✅ Now using answer */}
+        <div className="chat-container">
+            <div className="chat-header">
+                <h2>Ramayan Chat</h2>
+                <button onClick={clearHistory} className="clear-button">
+                    Clear History
+                </button>
+            </div>
+            <div className="chat-messages" ref={chatContainerRef}>
+                {messages.length === 0 && (
+                    <div className="welcome-message">
+                        <h3>Welcome to Ramayan Chat</h3>
+                        <p>Ask me anything about the Ramayan, its characters, stories, or teachings.</p>
+                    </div>
+                )}
+                {messages.map((message, index) => (
+                    <div key={index} className={`message ${message.type}`}>
+                        <div className="message-avatar">
+                            {message.type === 'bot' ? '🕉️' : '👤'}
+                        </div>
+                        <div className="message-content">
+                            {message.content}
+                            <div className="message-timestamp">
+                                {new Date(message.timestamp).toLocaleTimeString()}
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <form className="chat-input-container" onSubmit={askChatbot}>
+                <input 
+                    type="text"
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    placeholder="Ask something about Ramayan..."
+                    className="chat-input"
+                />
+                <button type="submit" className="send-button">
+                    Send
+                </button>
+            </form>
         </div>
     );
 }
