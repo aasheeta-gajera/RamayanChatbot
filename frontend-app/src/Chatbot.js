@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Chatbot.css";
 
-function Chatbot() {
+function Chatbot({chat}) {
     const [question, setQuestion] = useState("");
     const [messages, setMessages] = useState(() => {
         // Load messages from localStorage on initial render
@@ -9,6 +9,12 @@ function Chatbot() {
         return savedMessages ? JSON.parse(savedMessages) : [];
     });
     const chatContainerRef = useRef(null);
+
+     useEffect(() => {
+    if (chat) {
+      setMessages(chat.messages);
+    }
+  }, [chat]);
 
     // Save messages to localStorage whenever they change
     useEffect(() => {
@@ -110,13 +116,16 @@ function Chatbot() {
                 <button type="submit" className="send-button">
                     Send
                 </button>
+                {/* <button onClick={clearHistory} className="send-button">
+    <span className="delete-icon">🗑️</span>
+</button> */}
+
             </form>
         </div>
     );
 }
 
 export default Chatbot;
-
 
 // {
 //     "kanda": "Uttara Kanda",
