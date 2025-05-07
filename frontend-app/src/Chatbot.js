@@ -35,3 +35,15 @@ function Chatbot() {
 }
 
 export default Chatbot;
+
+
+// {
+//     "kanda": "Uttara Kanda",
+//     "sarga": 1,
+//     "shloka": 1,
+//     "shloka_text": "प्राप्तराज्यस्य रामस्य राक्षसानां वधे कृते । आजग्मुर्ऋषयः सर्वे राघवं प्रतिनन्दितुम् ।। 7.1.1 ।।",
+//     "transliteration": "prāptarājyasya rāmasya rākṣasānāṃ vadhe kṛte | ājagmurṛṣayaḥ sarve rāghavaṃ pratinanditum || 7.1.1 ||",
+//     "translation": null,
+//     "explanation": null,
+//     "comments": null
+// },

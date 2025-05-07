@@ -91,4 +91,4 @@ class RamayanSearch:
         return selected_shlokas
 
 # Create a global instance
-ramayan_search = RamayanSearch() 
+ramayan_search = RamayanSearch()
