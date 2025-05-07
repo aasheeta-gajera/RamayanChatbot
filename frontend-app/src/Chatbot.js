@@ -73,12 +73,11 @@ function Chatbot() {
 
     return (
         <div className="chat-container">
-            <div className="chat-header">
-                <h2>Ramayan Chat</h2>
+            {/* <div className="chat-header">
                 <button onClick={clearHistory} className="clear-button">
                     Clear History
                 </button>
-            </div>
+            </div> */}
             <div className="chat-messages" ref={chatContainerRef}>
                 {messages.length === 0 && (
                     <div className="welcome-message">
